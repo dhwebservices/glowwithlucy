@@ -1,0 +1,118 @@
+{
+  "theme": "light",
+  "archetype": "1 (Organic & Earthy)",
+  "brand_name": "GlowWithLucy",
+  "domain": "Handmade Bespoke Candles",
+  "colors": {
+    "background": "#F9F8F6",
+    "foreground": "#2E2922",
+    "primary": "#C4B9A7",
+    "primary_foreground": "#2E2922",
+    "secondary": "#EAE5DE",
+    "secondary_foreground": "#3A342C",
+    "muted": "#E0DACF",
+    "muted_foreground": "#6B6358",
+    "border": "#D8D2CA"
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Outfit",
+      "imports": [
+        "@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap');"
+      ]
+    },
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight font-serif",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight font-serif",
+      "h3": "text-2xl sm:text-3xl font-medium font-serif",
+      "body": "text-base lg:text-lg font-light leading-relaxed font-sans text-muted-foreground",
+      "label": "text-sm uppercase tracking-[0.2em] font-medium font-sans text-primary-foreground"
+    }
+  },
+  "layout_strategy": {
+    "spacing": "Use generous spacing (py-24, py-32). Containers must have ample internal padding.",
+    "alignment": "Favor left-alignment for copy. Use optical alignment over geometric. Implement asymmetrical grids for image showcases.",
+    "hero": "A split layout or overlapping composition. Avoid generic centered text over a darkened image. Use a soft, elegant overlay if text is on an image.",
+    "navigation": "Sticky header with crystal glassmorphism (backdrop-blur-xl bg-[#F9F8F6]/70 border-b border-[#D8D2CA]/50). Must contain links to Home, Shop, About, Contact.",
+    "footer": "Massive padding (py-20). Minimalist structure. MUST include 'Built by DH Website Services'.",
+    "shop": "Bento grid or asymmetrical showcase for the 3 sizes (7oz, 9oz, 12oz) since there is no standard cart. Prioritize high-quality imagery."
+  },
+  "interaction_and_motion": {
+    "scroll": "Use Lenis for smooth momentum scrolling.",
+    "animations": "Framer motion for subtle reveal-on-scroll (fade up and slow drift). Staggered entrances for lists and grids.",
+    "buttons": "Flat background with 1px border. On hover, slight lift (-translate-y-1) and shadow-md. Always set text color explicitly."
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "description": "Introduction to GlowWithLucy. Hero section with emotional copy. Featured highlight of the bespoke process. CTA to view sizes."
+    },
+    {
+      "name": "Shop",
+      "description": "Showcase of the three candle sizes: 7oz, 9oz, 12oz. Explains the contact-to-order approach. No cart functionality."
+    },
+    {
+      "name": "About",
+      "description": "The story of the artisan, the candle-making process, the commitment to bespoke quality."
+    },
+    {
+      "name": "Contact",
+      "description": "Contact form using Shadcn. Must include standard fields (Name, Email, Message) PLUS a specific field for 'Scent Preferences' or 'Candle Size & Scent Request'. Mentions email: lucyd789@sky.com."
+    }
+  ],
+  "components_needed": [
+    "Shadcn Form (for Contact)",
+    "Shadcn Input",
+    "Shadcn Textarea",
+    "Shadcn Button",
+    "Lucide React Icons (Mail, Instagram, ArrowRight)"
+  ],
+  "media": {
+    "images": {
+      "hero_background": {
+        "url": "https://images.unsplash.com/photo-1651841689044-00521ab0fa66?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwYmVpZ2UlMjBjYW5kbGV8ZW58MHx8fHwxNzc1MTc5MDIxfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Aesthetic beige minimalist candle setup",
+        "category": "hero"
+      },
+      "shop_7oz": {
+        "url": "https://images.unsplash.com/photo-1602525265024-bef0eb021a59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwyfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
+        "description": "Small minimalist candle",
+        "category": "shop"
+      },
+      "shop_9oz": {
+        "url": "https://images.unsplash.com/photo-1658915304996-7784292b22e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
+        "description": "Medium candle with aesthetic background",
+        "category": "shop"
+      },
+      "shop_12oz": {
+        "url": "https://static.prod-images.emergentagent.com/jobs/18f4b97f-ec95-4509-ae03-8eb27d699195/images/a5d2c9aff4133f1a08d679e0eacce4f0973888aa2167aea817cb69af4d933f45.png",
+        "description": "Large luxurious 12oz candle",
+        "category": "shop"
+      },
+      "about_artisan": {
+        "url": "https://images.pexels.com/photos/34241287/pexels-photo-34241287.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Hands crafting and pouring wax",
+        "category": "about"
+      },
+      "contact_aesthetic": {
+        "url": "https://images.pexels.com/photos/11431800/pexels-photo-11431800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Artistic hand holding a uniquely shaped candle",
+        "category": "contact"
+      }
+    }
+  },
+  "specific_requirements": [
+    "No e-commerce cart. The site uses a contact-to-order approach.",
+    "Contact form must have a field to request scent preferences.",
+    "Footer must have 'Built by DH Website Services'.",
+    "Logo text: 'GLOW WITH LUCY - CANDLE MAKING'. Background is #C4B9A7. Since no image is provided, style this as a clean text logo or simple SVG with the specified background.",
+    "Showcase sizes explicitly: 7oz, 9oz, 12oz.",
+    "Email to display/link: lucyd789@sky.com"
+  ],
+  "accessibility": {
+    "contrast": "Ensure all text on #C4B9A7 or #F9F8F6 meets WCAG AA standards. Use #2E2922 for primary text.",
+    "motion": "Respect prefers-reduced-motion.",
+    "testing": "All interactive elements MUST have data-testid attributes."
+  }
+}
