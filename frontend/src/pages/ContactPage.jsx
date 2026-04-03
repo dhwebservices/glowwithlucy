@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Send, CheckCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle, Phone, MapPin } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -11,10 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../components/ui/select';
-import axios from 'axios';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const CONTACT_IMAGE = "https://images.pexels.com/photos/11431800/pexels-photo-11431800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
@@ -45,7 +41,22 @@ export const ContactPage = () => {
     setError('');
 
     try {
-      await axios.post(`${API}/contact`, formData);
+      const subject = encodeURIComponent(
+        `Glow With Lucy enquiry${formData.candleSize ? ` - ${formData.candleSize}` : ''}`
+      );
+      const body = encodeURIComponent(
+        [
+          `Name: ${formData.name}`,
+          `Email: ${formData.email}`,
+          `Preferred candle size: ${formData.candleSize || 'Not specified'}`,
+          `Scent preferences: ${formData.scentPreference || 'Not specified'}`,
+          '',
+          'Additional message:',
+          formData.message || 'No extra details provided.'
+        ].join('\n')
+      );
+
+      window.location.href = `mailto:Lucyd789@sky.com?subject=${subject}&body=${body}`;
       setIsSubmitted(true);
       setFormData({
         name: '',
@@ -55,7 +66,7 @@ export const ContactPage = () => {
         message: ''
       });
     } catch (err) {
-      setError('Something went wrong. Please try emailing us directly at lucyd789@sky.com');
+      setError('Something went wrong. Please email us directly at Lucyd789@sky.com');
     } finally {
       setIsSubmitting(false);
     }
@@ -84,11 +95,33 @@ export const ContactPage = () => {
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 text-[#6B6358]" />
                   <a 
-                    href="mailto:lucyd789@sky.com" 
+                    href="mailto:Lucyd789@sky.com" 
                     className="ml-3 text-[#2E2922] hover:underline"
                     data-testid="contact-email-link"
                   >
-                    lucyd789@sky.com
+                    Lucyd789@sky.com
+                  </a>
+                </div>
+                <div className="flex items-center mt-4">
+                  <Phone className="h-5 w-5 text-[#6B6358]" />
+                  <a
+                    href="tel:+447375351849"
+                    className="ml-3 text-[#2E2922] hover:underline"
+                    data-testid="contact-phone-link"
+                  >
+                    +44 7375 351849
+                  </a>
+                </div>
+                <div className="flex items-start mt-4">
+                  <MapPin className="h-5 w-5 text-[#6B6358] mt-0.5" />
+                  <a
+                    href="https://maps.google.com/?q=36b+Coedpenmaen+Road+Pontypridd+CF37+4LP"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-3 text-[#2E2922] hover:underline"
+                    data-testid="contact-address-link"
+                  >
+                    36b Coedpenmaen Road, Pontypridd, CF37 4LP
                   </a>
                 </div>
               </div>
@@ -205,7 +238,7 @@ export const ContactPage = () => {
                     className="w-full btn-primary py-6 text-sm uppercase tracking-[0.15em] font-medium rounded-none"
                     data-testid="submit-btn"
                   >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    {isSubmitting ? 'Preparing...' : 'Open Email Draft'}
                     <Send className="ml-2 h-4 w-4" />
                   </Button>
                 </form>

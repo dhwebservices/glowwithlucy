@@ -58,12 +58,12 @@ export const Footer = () => {
             </h4>
             <div className="flex flex-col space-y-3">
               <a 
-                href="mailto:lucyd789@sky.com" 
+                href="mailto:Lucyd789@sky.com" 
                 className="flex items-center text-[#6B6358] hover:text-[#2E2922] transition-colors"
                 data-testid="footer-email"
               >
                 <Mail className="h-4 w-4 mr-3" />
-                lucyd789@sky.com
+                Lucyd789@sky.com
               </a>
             </div>
           </div>

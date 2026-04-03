@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_18f4b97f-ec95-4509-ae03-8eb27d699195/artifacts/5wp1c0ql_Screenshot%202026-04-03%20at%2001.43.26.png";
+const LOGO_URL = "/assets/glow-with-lucy-logo.png";
 
 const navLinks = [
   { name: 'Home', path: '/' },

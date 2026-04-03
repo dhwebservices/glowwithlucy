@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 const CANDLE_IMAGES = {
   small: "https://images.unsplash.com/photo-1602525265024-bef0eb021a59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwyfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
   medium: "https://images.unsplash.com/photo-1658915304996-7784292b22e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
-  large: "https://static.prod-images.emergentagent.com/jobs/18f4b97f-ec95-4509-ae03-8eb27d699195/images/a5d2c9aff4133f1a08d679e0eacce4f0973888aa2167aea817cb69af4d933f45.png"
+  large: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwzfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85"
 };
 
 const candles = [
@@ -168,11 +168,11 @@ export const ShopPage = () => {
           <p className="mt-4 text-[#3A342C] font-light">
             Reach out to us at{' '}
             <a 
-              href="mailto:lucyd789@sky.com" 
+              href="mailto:Lucyd789@sky.com" 
               className="underline hover:no-underline"
               data-testid="shop-email-link"
             >
-              lucyd789@sky.com
+              Lucyd789@sky.com
             </a>
           </p>
         </div>
