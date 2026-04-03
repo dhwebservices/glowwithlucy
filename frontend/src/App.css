@@ -1,34 +1,127 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* GlowWithLucy Custom Styles */
+
+/* Glassmorphism navbar */
+.glass-nav {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(249, 248, 246, 0.7);
+    border-bottom: 1px solid rgba(216, 210, 202, 0.5);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Hero image overlay */
+.hero-overlay {
+    background: linear-gradient(
+        to right,
+        rgba(249, 248, 246, 0.95) 0%,
+        rgba(249, 248, 246, 0.8) 50%,
+        rgba(249, 248, 246, 0.4) 100%
+    );
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* Card hover effect */
+.candle-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.App-link {
-    color: #61dafb;
+.candle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(196, 185, 167, 0.2);
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Button styles */
+.btn-primary {
+    background-color: #C4B9A7;
+    color: #2E2922;
+    border: 1px solid #C4B9A7;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(196, 185, 167, 0.3);
+    background-color: #B5A998;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #2E2922;
+    border: 1px solid #2E2922;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    transform: translateY(-2px);
+    background-color: #2E2922;
+    color: #F9F8F6;
+}
+
+/* Image styles */
+.img-cover {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Section transitions */
+.section-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.section-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Link underline animation */
+.link-underline {
+    position: relative;
+}
+
+.link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #2E2922;
+    transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+    width: 100%;
+}
+
+/* Form input focus */
+.form-input:focus {
+    outline: none;
+    border-color: #C4B9A7;
+    box-shadow: 0 0 0 3px rgba(196, 185, 167, 0.2);
+}
+
+/* Logo text styling */
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.05em;
+}
+
+/* Page transition */
+.page-enter {
+    opacity: 0;
+}
+
+.page-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+}
+
+.page-exit {
+    opacity: 1;
+}
+
+.page-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-out;
 }
