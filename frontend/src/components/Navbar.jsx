@@ -63,12 +63,6 @@ export const Navbar = () => {
                 </span>
               ) : null}
             </Link>
-            <Link
-              to="/staff/login"
-              className="text-sm text-[#6B6358] transition-colors hover:text-[#2E2922]"
-            >
-              Staff
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,13 +102,6 @@ export const Navbar = () => {
                 className="text-sm font-medium py-2 text-[#6B6358]"
               >
                 Cart {itemCount ? `(${itemCount})` : ""}
-              </Link>
-              <Link
-                to="/staff/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium py-2 text-[#6B6358]"
-              >
-                Staff
               </Link>
             </div>
           </div>
