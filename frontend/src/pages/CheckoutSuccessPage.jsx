@@ -40,7 +40,6 @@ export function CheckoutSuccessPage() {
               <p className="mt-6 text-lg text-[#6B6358]">
                 Your reference is{" "}
                 <span className="font-medium text-[#2E2922]">{order.orderNumber}</span>.
-                Lucy can now see your paid order in the staff dashboard.
               </p>
               <div className="mt-10 rounded-2xl border border-[#D8CEC0] bg-white/90 p-8 text-left">
                 <div className="flex justify-between text-[#6B6358]">
