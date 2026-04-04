@@ -52,7 +52,7 @@ export const SHOP_PRODUCTS = [
     subtitle: "A playful sculpted candle for gifting and shelves.",
     description:
       "Choose your bear shape, colour, and scent to build a candle that feels personal from the moment it arrives.",
-    imageUrl: "/assets/site/candle-small.jpg",
+    imageUrl: "/assets/site/heart-bears-placeholder.jpeg",
     sizes: [
       {
         id: "small",
@@ -81,7 +81,7 @@ export const SHOP_PRODUCTS = [
     subtitle: "A floral silhouette with a soft, romantic finish.",
     description:
       "Rose candles bring a delicate profile to bedside tables, dressing areas, and thoughtful gift boxes.",
-    imageUrl: "/assets/site/candle-medium.jpg",
+    imageUrl: "/assets/site/rose-placeholder.jpeg",
     sizes: [
       {
         id: "small",
@@ -110,7 +110,7 @@ export const SHOP_PRODUCTS = [
     subtitle: "An architectural spiral shape with a modern finish.",
     description:
       "This twisted style works beautifully as a statement piece, especially in layered colour palettes.",
-    imageUrl: "/assets/site/candle-large.jpg",
+    imageUrl: "/assets/site/spirals-placeholder.jpeg",
     sizes: [
       {
         id: "small",
@@ -139,7 +139,7 @@ export const SHOP_PRODUCTS = [
     subtitle: "A cube-circle mould with a bold, tactile shape.",
     description:
       "Bubble cubes add a sculptural feel to coffee tables and gifting sets, with compact or fuller sizing.",
-    imageUrl: "/assets/site/candle-medium.jpg",
+    imageUrl: "/assets/site/bubble-cube-placeholder.jpeg",
     sizes: [
       {
         id: "small",
