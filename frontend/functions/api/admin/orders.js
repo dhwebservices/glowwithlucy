@@ -60,6 +60,24 @@ export async function onRequestPatch(context) {
   return json({ order: row });
 }
 
+export async function onRequestDelete(context) {
+  const denied = await ensureAuth(context.request, context.env);
+  if (denied) return denied;
+
+  const body = await readJson(context.request);
+  const id = Number(body?.id || 0);
+  if (!id) return badRequest("Order id is required");
+
+  await context.env.DB.prepare("DELETE FROM order_items WHERE order_id = ?")
+    .bind(id)
+    .run();
+  await context.env.DB.prepare("DELETE FROM orders WHERE id = ?")
+    .bind(id)
+    .run();
+
+  return json({ success: true });
+}
+
 export async function onRequest(context) {
   return notAllowed(context.request.method);
 }

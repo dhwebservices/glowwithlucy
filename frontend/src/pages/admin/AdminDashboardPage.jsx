@@ -6,6 +6,7 @@ import {
   ReceiptText,
   Search,
   Tag,
+  Trash2,
   Truck,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
@@ -125,6 +126,16 @@ export function AdminDashboardPage() {
     });
   }, [orders, searchTerm, statusFilter]);
 
+  const draftOrders = useMemo(
+    () => filteredOrders.filter((order) => order.payment_status !== "paid"),
+    [filteredOrders]
+  );
+
+  const paidOrders = useMemo(
+    () => filteredOrders.filter((order) => order.payment_status === "paid"),
+    [filteredOrders]
+  );
+
   async function saveDiscount(event) {
     event.preventDefault();
     setSaving("discount");
@@ -175,6 +186,188 @@ export function AdminDashboardPage() {
       body: JSON.stringify({ id, ...patch }),
     });
     await loadAll();
+  }
+
+  async function deleteOrder(id) {
+    await apiRequest("/api/admin/orders", {
+      method: "DELETE",
+      body: JSON.stringify({ id }),
+    });
+    if (expandedOrderId === id) {
+      setExpandedOrderId(null);
+    }
+    await loadAll();
+  }
+
+  function renderOrderSection(title, description, sectionOrders, emptyMessage) {
+    return (
+      <div>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h3 className="text-2xl font-serif text-[#2E2922]">{title}</h3>
+            <p className="mt-2 text-[#6B6358]">{description}</p>
+          </div>
+          <div className="rounded-full bg-[#F4ECE2] px-4 py-2 text-sm text-[#4B4338]">
+            {sectionOrders.length} orders
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          {sectionOrders.length ? (
+            sectionOrders.map((order) => {
+              const expanded = expandedOrderId === order.id;
+
+              return (
+                <article
+                  key={order.id}
+                  className="rounded-2xl border border-[#D8CEC0] bg-[#FCFAF7] p-5"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm text-[#8A7C69]">{order.order_number}</p>
+                      <h4 className="mt-1 text-2xl font-serif text-[#2E2922]">
+                        {order.customer_name}
+                      </h4>
+                      <p className="mt-2 text-sm text-[#6B6358]">
+                        {formatDate(order.created_at)} · {order.customer_email}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-serif text-[#2E2922]">
+                        {money(order.total)}
+                      </p>
+                      <p className="mt-2 text-sm text-[#6B6358]">
+                        {getOrderPreview(order)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_0.95fr_0.6fr_auto_auto] lg:items-end">
+                    <label className="block">
+                      <span className="mb-2 block text-sm text-[#6B6358]">Order status</span>
+                      <select
+                        value={order.status}
+                        onChange={(event) =>
+                          updateOrder(order.id, {
+                            status: event.target.value,
+                            paymentStatus: order.payment_status,
+                          })
+                        }
+                        className="form-input w-full rounded-full border border-[#D8CEC0] bg-white px-5 py-3 text-[#2E2922]"
+                      >
+                        {orderStatuses.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm text-[#6B6358]">Payment</span>
+                      <select
+                        value={order.payment_status}
+                        onChange={(event) =>
+                          updateOrder(order.id, {
+                            status: order.status,
+                            paymentStatus: event.target.value,
+                          })
+                        }
+                        className="form-input w-full rounded-full border border-[#D8CEC0] bg-white px-5 py-3 text-[#2E2922]"
+                      >
+                        {paymentStatuses.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <div className="rounded-2xl bg-[#F4ECE2] px-4 py-3 text-sm text-[#4B4338]">
+                      <p>Items: {(order.items || []).length}</p>
+                      <p className="mt-1">Discount: {money(order.discount)}</p>
+                    </div>
+
+                    <Button
+                      type="button"
+                      className="btn-outline rounded-full px-5"
+                      onClick={() =>
+                        setExpandedOrderId((current) =>
+                          current === order.id ? null : order.id
+                        )
+                      }
+                    >
+                      {expanded ? "Hide details" : "View details"}
+                    </Button>
+
+                    <Button
+                      type="button"
+                      className="btn-outline rounded-full px-5"
+                      onClick={() => deleteOrder(order.id)}
+                    >
+                      Delete order
+                      <Trash2 className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  {expanded ? (
+                    <div className="mt-5 grid gap-5 border-t border-[#E6DDD1] pt-5 lg:grid-cols-[0.9fr_1.1fr]">
+                      <div className="rounded-2xl bg-white p-4">
+                        <h5 className="text-lg font-serif text-[#2E2922]">
+                          Delivery details
+                        </h5>
+                        <p className="mt-3 text-sm text-[#6B6358]">
+                          {order.customer_phone || "No phone provided"}
+                        </p>
+                        <p className="mt-2 whitespace-pre-line text-sm text-[#6B6358]">
+                          {order.shipping_address}
+                        </p>
+                        {order.notes ? (
+                          <p className="mt-3 text-sm text-[#6B6358]">
+                            Notes: {order.notes}
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <div className="rounded-2xl bg-white p-4">
+                        <h5 className="text-lg font-serif text-[#2E2922]">
+                          Ordered candles
+                        </h5>
+                        <div className="mt-4 space-y-3">
+                          {(order.items || []).map((item) => (
+                            <div
+                              key={item.id}
+                              className="rounded-2xl bg-[#FCFAF7] px-4 py-3 text-sm text-[#4B4338]"
+                            >
+                              <div className="flex items-center justify-between gap-4">
+                                <p className="font-medium text-[#2E2922]">
+                                  {item.product_name}
+                                </p>
+                                <p>{money(item.line_total_pence / 100)}</p>
+                              </div>
+                              <p className="mt-1 text-[#6B6358]">
+                                {item.size_label} x {item.quantity}
+                              </p>
+                              {item.scent ? (
+                                <p className="mt-1 text-[#6B6358]">{item.scent}</p>
+                              ) : null}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })
+          ) : (
+            <div className="rounded-2xl border border-dashed border-[#D8CEC0] bg-[#FCFAF7] p-10 text-center text-[#6B6358]">
+              {emptyMessage}
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -257,149 +450,18 @@ export function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="mt-8 space-y-4">
-              {filteredOrders.length ? (
-                filteredOrders.map((order) => {
-                  const expanded = expandedOrderId === order.id;
-
-                  return (
-                    <article
-                      key={order.id}
-                      className="rounded-2xl border border-[#D8CEC0] bg-[#FCFAF7] p-5"
-                    >
-                      <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                          <p className="text-sm text-[#8A7C69]">{order.order_number}</p>
-                          <h3 className="mt-1 text-2xl font-serif text-[#2E2922]">
-                            {order.customer_name}
-                          </h3>
-                          <p className="mt-2 text-sm text-[#6B6358]">
-                            {formatDate(order.created_at)} · {order.customer_email}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-2xl font-serif text-[#2E2922]">
-                            {money(order.total)}
-                          </p>
-                          <p className="mt-2 text-sm text-[#6B6358]">
-                            {getOrderPreview(order)}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_0.95fr_0.6fr_auto] lg:items-end">
-                        <label className="block">
-                          <span className="mb-2 block text-sm text-[#6B6358]">Order status</span>
-                          <select
-                            value={order.status}
-                            onChange={(event) =>
-                              updateOrder(order.id, {
-                                status: event.target.value,
-                                paymentStatus: order.payment_status,
-                              })
-                            }
-                            className="form-input w-full rounded-full border border-[#D8CEC0] bg-white px-5 py-3 text-[#2E2922]"
-                          >
-                            {orderStatuses.map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
-
-                        <label className="block">
-                          <span className="mb-2 block text-sm text-[#6B6358]">Payment</span>
-                          <select
-                            value={order.payment_status}
-                            onChange={(event) =>
-                              updateOrder(order.id, {
-                                status: order.status,
-                                paymentStatus: event.target.value,
-                              })
-                            }
-                            className="form-input w-full rounded-full border border-[#D8CEC0] bg-white px-5 py-3 text-[#2E2922]"
-                          >
-                            {paymentStatuses.map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
-
-                        <div className="rounded-2xl bg-[#F4ECE2] px-4 py-3 text-sm text-[#4B4338]">
-                          <p>Items: {(order.items || []).length}</p>
-                          <p className="mt-1">Discount: {money(order.discount)}</p>
-                        </div>
-
-                        <Button
-                          type="button"
-                          className="btn-outline rounded-full px-5"
-                          onClick={() =>
-                            setExpandedOrderId((current) =>
-                              current === order.id ? null : order.id
-                            )
-                          }
-                        >
-                          {expanded ? "Hide details" : "View details"}
-                        </Button>
-                      </div>
-
-                      {expanded ? (
-                        <div className="mt-5 grid gap-5 border-t border-[#E6DDD1] pt-5 lg:grid-cols-[0.9fr_1.1fr]">
-                          <div className="rounded-2xl bg-white p-4">
-                            <h4 className="text-lg font-serif text-[#2E2922]">
-                              Delivery details
-                            </h4>
-                            <p className="mt-3 text-sm text-[#6B6358]">
-                              {order.customer_phone || "No phone provided"}
-                            </p>
-                            <p className="mt-2 whitespace-pre-line text-sm text-[#6B6358]">
-                              {order.shipping_address}
-                            </p>
-                            {order.notes ? (
-                              <p className="mt-3 text-sm text-[#6B6358]">
-                                Notes: {order.notes}
-                              </p>
-                            ) : null}
-                          </div>
-
-                          <div className="rounded-2xl bg-white p-4">
-                            <h4 className="text-lg font-serif text-[#2E2922]">
-                              Ordered candles
-                            </h4>
-                            <div className="mt-4 space-y-3">
-                              {(order.items || []).map((item) => (
-                                <div
-                                  key={item.id}
-                                  className="rounded-2xl bg-[#FCFAF7] px-4 py-3 text-sm text-[#4B4338]"
-                                >
-                                  <div className="flex items-center justify-between gap-4">
-                                    <p className="font-medium text-[#2E2922]">
-                                      {item.product_name}
-                                    </p>
-                                    <p>{money(item.line_total_pence / 100)}</p>
-                                  </div>
-                                  <p className="mt-1 text-[#6B6358]">
-                                    {item.size_label} x {item.quantity}
-                                  </p>
-                                  {item.scent ? (
-                                    <p className="mt-1 text-[#6B6358]">{item.scent}</p>
-                                  ) : null}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                    </article>
-                  );
-                })
-              ) : (
-                <div className="rounded-2xl border border-dashed border-[#D8CEC0] bg-[#FCFAF7] p-10 text-center text-[#6B6358]">
-                  No orders match that search yet.
-                </div>
+            <div className="mt-8 space-y-10">
+              {renderOrderSection(
+                "Orders left in cart / awaiting payment",
+                "These are orders that have been started or created, but not yet completed as paid orders.",
+                draftOrders,
+                "No unpaid or draft orders match that search."
+              )}
+              {renderOrderSection(
+                "Paid orders",
+                "These are confirmed paid orders ready for making, packing, and dispatch.",
+                paidOrders,
+                "No paid orders match that search."
               )}
             </div>
           </section>
