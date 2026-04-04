@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from '../components/ui/select';
 
-const CONTACT_IMAGE = "https://images.pexels.com/photos/11431800/pexels-photo-11431800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
+const CONTACT_IMAGE = "/assets/site/contact.jpg";
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({

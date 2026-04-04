@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, ShoppingBag, X } from 'lucide-react';
 import { Button } from './ui/button';
+import { useCart } from '../context/CartContext';
 
 const LOGO_URL = "/assets/glow-with-lucy-logo.png";
 
@@ -15,6 +16,7 @@ const navLinks = [
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { itemCount } = useCart();
 
   const isActive = (path) => location.pathname === path;
 
@@ -38,7 +40,7 @@ export const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 data-testid={`nav-link-${link.name.toLowerCase()}`}
-                className={`text-sm uppercase tracking-[0.15em] font-medium transition-colors link-underline ${
+                className={`text-sm uppercase tracking-wider font-medium transition-colors link-underline ${
                   isActive(link.path)
                     ? 'text-[#2E2922]'
                     : 'text-[#6B6358] hover:text-[#2E2922]'
@@ -47,6 +49,20 @@ export const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+          </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              to="/cart"
+              className="relative inline-flex items-center justify-center rounded-full border border-[#D8D2CA] bg-white/70 p-3 text-[#2E2922]"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              {itemCount ? (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2E2922] px-1 text-[10px] text-white">
+                  {itemCount}
+                </span>
+              ) : null}
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -71,7 +87,7 @@ export const Navbar = () => {
                   to={link.path}
                   data-testid={`mobile-nav-link-${link.name.toLowerCase()}`}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-sm uppercase tracking-[0.15em] font-medium py-2 ${
+                  className={`text-sm uppercase tracking-wider font-medium py-2 ${
                     isActive(link.path)
                       ? 'text-[#2E2922]'
                       : 'text-[#6B6358]'
@@ -80,6 +96,13 @@ export const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="/cart"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-sm font-medium py-2 text-[#6B6358]"
+              >
+                Cart {itemCount ? `(${itemCount})` : ""}
+              </Link>
             </div>
           </div>
         )}

@@ -48,6 +48,12 @@ export const Footer = () => {
               >
                 Contact
               </Link>
+              <Link 
+                to="/staff/login" 
+                className="text-[#6B6358] hover:text-[#2E2922] transition-colors"
+              >
+                Staff login
+              </Link>
             </nav>
           </div>
 

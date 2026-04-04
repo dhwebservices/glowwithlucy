@@ -1,6 +1,5 @@
 // craco.config.js
 const path = require("path");
-require("dotenv").config();
 
 const config = {
   enableHealthCheck: process.env.ENABLE_HEALTH_CHECK === "true",

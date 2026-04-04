@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
-const HERO_IMAGE = "https://images.unsplash.com/photo-1651841689044-00521ab0fa66?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwYmVpZ2UlMjBjYW5kbGV8ZW58MHx8fHwxNzc1MTc5MDIxfDA&ixlib=rb-4.1.0&q=85";
+const HERO_IMAGE = "/assets/site/hero.jpg";
 
 const CANDLE_IMAGES = {
-  small: "https://images.unsplash.com/photo-1602525265024-bef0eb021a59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwyfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
-  medium: "https://images.unsplash.com/photo-1658915304996-7784292b22e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
-  large: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwzfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85"
+  small: "/assets/site/candle-small.jpg",
+  medium: "/assets/site/candle-medium.jpg",
+  large: "/assets/site/candle-large.jpg"
 };
 
 export const HomePage = () => {

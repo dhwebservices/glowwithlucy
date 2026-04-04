@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Heart, Leaf, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
-const ABOUT_IMAGE = "https://images.pexels.com/photos/34241287/pexels-photo-34241287.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
-const CANDLE_IMAGE = "https://images.unsplash.com/photo-1658915304996-7784292b22e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85";
+const ABOUT_IMAGE = "/assets/site/about.jpg";
+const CANDLE_IMAGE = "/assets/site/candle-medium.jpg";
 
 export const AboutPage = () => {
   return (

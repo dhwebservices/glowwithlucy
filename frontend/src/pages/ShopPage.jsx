@@ -1,176 +1,173 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Mail } from 'lucide-react';
-import { Button } from '../components/ui/button';
-
-const CANDLE_IMAGES = {
-  small: "https://images.unsplash.com/photo-1602525265024-bef0eb021a59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwyfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
-  medium: "https://images.unsplash.com/photo-1658915304996-7784292b22e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85",
-  large: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwzfHxoYW5kbWFkZSUyMGJlaWdlJTIwY2FuZGxlfGVufDB8fHx8MTc3NTE3OTAzMXww&ixlib=rb-4.1.0&q=85"
-};
-
-const candles = [
-  {
-    id: 1,
-    size: '7 oz',
-    title: 'Petite Glow',
-    description: 'Perfect for bedside tables, bathrooms, or small spaces. A subtle but impactful presence.',
-    burnTime: '~35 hours',
-    image: CANDLE_IMAGES.small,
-    testId: 'shop-candle-7oz'
-  },
-  {
-    id: 2,
-    size: '9 oz',
-    title: 'Classic Glow',
-    description: 'Our most popular size. Ideal for living rooms, offices, and dining areas.',
-    burnTime: '~45 hours',
-    image: CANDLE_IMAGES.medium,
-    testId: 'shop-candle-9oz'
-  },
-  {
-    id: 3,
-    size: '12 oz',
-    title: 'Grand Glow',
-    description: 'Maximum luxury and burn time. Perfect for large spaces or extended evenings.',
-    burnTime: '~60 hours',
-    image: CANDLE_IMAGES.large,
-    testId: 'shop-candle-12oz'
-  }
-];
+import { ArrowRight, Mail, Truck } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "../components/ui/button";
+import { useCart } from "../context/CartContext";
+import { DELIVERY_PRICE_PENCE, SHOP_PRODUCTS } from "../data/shopCatalog";
+import { money } from "../lib/api";
 
 export const ShopPage = () => {
+  const { itemCount } = useCart();
+
   return (
     <div className="pt-20" data-testid="shop-page">
-      {/* Hero Section */}
-      <section className="py-24 lg:py-32 bg-[#F9F8F6]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="bg-[#F7F2EB] py-24 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
           <div className="max-w-3xl">
-            <span className="text-sm uppercase tracking-[0.2em] font-medium text-[#6B6358]">
-              Our Collection
-            </span>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-light tracking-tight font-serif text-[#2E2922]">
-              Choose Your Size
+            <p className="text-sm font-medium text-[#7A6C58]">Custom candle shop</p>
+            <h1 className="mt-4 text-5xl font-serif font-light tracking-tight text-[#2E2922] sm:text-6xl">
+              Choose your sculpted candle
             </h1>
-            <p className="mt-6 text-lg lg:text-xl font-light leading-relaxed text-[#6B6358]">
-              Each candle is handcrafted to order. Select your preferred size and contact us with your scent preferences to create your perfect candle.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#6B6358]">
+              Browse the collection, open a full product page, and customise the
+              candle there with your size, colour, and scent choices.
             </p>
+          </div>
+
+          <div className="rounded-2xl border border-[#D8CEC0] bg-white/80 p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm text-[#6B6358]">Basket items</p>
+                <p className="mt-2 text-4xl font-serif text-[#2E2922]">{itemCount}</p>
+              </div>
+              <Link to="/cart">
+                <Button className="btn-primary rounded-full px-6">
+                  View basket
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-6 rounded-2xl bg-[#F4ECE2] p-4 text-sm text-[#4B4338]">
+              <div className="flex items-center gap-3">
+                <Truck className="h-4 w-4" />
+                <span>Next-day delivery is {money(DELIVERY_PRICE_PENCE / 100)} per order.</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Products Grid */}
-      <section className="py-16 lg:py-24 bg-[#EAE5DE]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {candles.map((candle) => (
-              <div 
-                key={candle.id} 
-                className="candle-card bg-[#F9F8F6] rounded-sm overflow-hidden"
-                data-testid={candle.testId}
-              >
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={candle.image}
-                    alt={`${candle.size} Candle`}
-                    className="img-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm uppercase tracking-[0.2em] font-medium text-[#C4B9A7]">
-                      {candle.size}
-                    </span>
-                    <span className="text-sm text-[#6B6358]">{candle.burnTime}</span>
+      <section className="bg-[#ECE3D7] py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-serif text-[#2E2922] lg:text-4xl">
+                Shop the collection
+              </h2>
+              <p className="mt-2 text-[#6B6358]">
+                Each candle opens into its own product page for customisation.
+              </p>
+            </div>
+            <Link to="/checkout">
+              <Button className="btn-outline rounded-full px-6">Go to checkout</Button>
+            </Link>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-4">
+            {SHOP_PRODUCTS.map((product) => {
+              const fromPrice = Math.min(...product.sizes.map((size) => size.pricePence)) / 100;
+
+              return (
+                <article
+                  key={product.id}
+                  className="candle-card overflow-hidden rounded-2xl border border-[#D8CEC0] bg-[#F9F6F1]"
+                >
+                  <div className="aspect-[4/5] overflow-hidden">
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="img-cover transition-transform duration-500 hover:scale-105"
+                    />
                   </div>
-                  <h3 className="text-2xl font-serif text-[#2E2922]">{candle.title}</h3>
-                  <p className="mt-4 text-[#6B6358] font-light leading-relaxed">
-                    {candle.description}
-                  </p>
-                  <Link to="/contact" className="block mt-6">
-                    <Button 
-                      className="w-full btn-primary py-4 text-sm uppercase tracking-[0.15em] font-medium rounded-none"
-                      data-testid={`order-${candle.size.replace(' ', '-').toLowerCase()}-btn`}
-                    >
-                      Enquire Now
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
+                  <div className="p-6">
+                    <p className="text-sm text-[#8A7C69]">{product.subtitle}</p>
+                    <h3 className="mt-3 text-3xl font-serif text-[#2E2922]">
+                      {product.name}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#6B6358]">
+                      {product.description}
+                    </p>
+
+                    <div className="mt-5 rounded-2xl bg-[#F4ECE2] p-4">
+                      <p className="text-sm text-[#6B6358]">Available sizes</p>
+                      <p className="mt-2 text-sm text-[#4B4338]">
+                        {product.sizes.map((size) => size.label).join(", ")}
+                      </p>
+                      <p className="mt-3 text-2xl font-serif text-[#2E2922]">
+                        From {money(fromPrice)}
+                      </p>
+                    </div>
+
+                    <Link to={`/shop/${product.slug}`} className="mt-6 block">
+                      <Button className="btn-primary w-full rounded-full px-6 py-6">
+                        View product
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#F8F4ED] py-24 lg:py-28" data-testid="how-to-order-section">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-10 max-w-2xl">
+            <h2 className="text-3xl font-serif text-[#2E2922] lg:text-4xl">
+              How to order
+            </h2>
+            <p className="mt-3 text-[#6B6358]">
+              Customers now move from the shop grid into a dedicated product page
+              before adding anything to the basket.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                title: "Open a product page",
+                copy: "Choose Heart Bears, Rose, Spirals, or Bubble Cubes to view the full product details first.",
+              },
+              {
+                title: "Customise the candle",
+                copy: "Pick the size, colour, and scent on the product page, then add the finished candle to the basket.",
+              },
+              {
+                title: "Checkout and pay",
+                copy: "Review the basket, enter delivery details, and continue into payment once Stripe is connected.",
+              },
+            ].map((step, index) => (
+              <div
+                key={step.title}
+                className="rounded-2xl border border-[#D8CEC0] bg-white/80 p-8"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E6D6C0] text-[#2E2922]">
+                  {index + 1}
                 </div>
+                <h3 className="mt-6 text-2xl font-serif text-[#2E2922]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-[#6B6358]">{step.copy}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How to Order */}
-      <section className="py-24 lg:py-32 bg-[#F9F8F6]" data-testid="how-to-order-section">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm uppercase tracking-[0.2em] font-medium text-[#6B6358]">
-              Simple Process
-            </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight font-serif text-[#2E2922]">
-              How to Order
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-[#C4B9A7] flex items-center justify-center mx-auto">
-                <span className="text-2xl font-serif text-[#2E2922]">1</span>
-              </div>
-              <h3 className="mt-6 text-xl font-serif text-[#2E2922]">Choose Your Size</h3>
-              <p className="mt-3 text-[#6B6358] font-light">
-                Select from our 7oz, 9oz, or 12oz candles based on your needs.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-[#C4B9A7] flex items-center justify-center mx-auto">
-                <span className="text-2xl font-serif text-[#2E2922]">2</span>
-              </div>
-              <h3 className="mt-6 text-xl font-serif text-[#2E2922]">Request Your Scent</h3>
-              <p className="mt-3 text-[#6B6358] font-light">
-                Let us know your preferred fragrance or describe the mood you want to create.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-[#C4B9A7] flex items-center justify-center mx-auto">
-                <span className="text-2xl font-serif text-[#2E2922]">3</span>
-              </div>
-              <h3 className="mt-6 text-xl font-serif text-[#2E2922]">We Craft & Deliver</h3>
-              <p className="mt-3 text-[#6B6358] font-light">
-                We'll handcraft your candle and arrange delivery to your door.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-16 text-center">
-            <Link to="/contact">
-              <Button 
-                className="btn-primary px-8 py-6 text-sm uppercase tracking-[0.15em] font-medium rounded-none"
-                data-testid="start-order-btn"
-              >
-                Start Your Order
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Banner */}
-      <section className="py-16 bg-[#C4B9A7]">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center mb-4">
+      <section className="bg-[#CDB79B] py-16">
+        <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
+          <div className="mb-4 flex items-center justify-center">
             <Mail className="h-6 w-6 text-[#2E2922]" />
           </div>
-          <h3 className="text-2xl font-serif text-[#2E2922]">Questions about our candles?</h3>
-          <p className="mt-4 text-[#3A342C] font-light">
-            Reach out to us at{' '}
-            <a 
-              href="mailto:Lucyd789@sky.com" 
+          <h3 className="text-2xl font-serif text-[#2E2922]">
+            Need a bespoke order or event quantity?
+          </h3>
+          <p className="mt-4 font-light text-[#3A342C]">
+            Reach out at{" "}
+            <a
+              href="mailto:Lucyd789@sky.com"
               className="underline hover:no-underline"
-              data-testid="shop-email-link"
             >
               Lucyd789@sky.com
             </a>

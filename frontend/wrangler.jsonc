@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "glow-with-lucy",
+  "compatibility_date": "2026-04-04",
+  "pages_build_output_dir": "build",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "glow-with-lucy",
+      "database_id": "c0b477f3-5df3-421f-9d92-e191efab03d0"
+    }
+  ]
+}
