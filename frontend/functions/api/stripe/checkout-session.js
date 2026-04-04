@@ -19,6 +19,17 @@ export async function onRequestPost(context) {
 
   const { orderId } = await createOrderRecord(context.env, draft);
   const origin = getOrigin(context.request);
+  const discountCoupon =
+    draft.discountPence > 0
+      ? await stripeRequest(context.env, "/coupons", {
+          duration: "once",
+          amount_off: draft.discountPence,
+          currency: "gbp",
+          name: draft.discount?.code
+            ? `Glow With Lucy ${draft.discount.code}`
+            : "Glow With Lucy discount",
+        })
+      : null;
 
   const session = await stripeRequest(context.env, "/checkout/sessions", {
     mode: "payment",
@@ -31,6 +42,11 @@ export async function onRequestPost(context) {
     "metadata[order_number]": draft.orderNumber,
     "metadata[customer_notes]": draft.customer.notes || "",
     "customer_email": draft.customer.email || undefined,
+    ...(discountCoupon
+      ? {
+          "discounts[0][coupon]": discountCoupon.id,
+        }
+      : {}),
     line_items: [
       ...draft.detailedItems.map((item) => ({
         quantity: item.quantity,

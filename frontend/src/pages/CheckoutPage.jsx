@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { useCart } from "../context/CartContext";
@@ -23,6 +23,9 @@ export function CheckoutPage() {
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [quote, setQuote] = useState(null);
+  const fallbackDelivery = delivery || DELIVERY_PRICE_PENCE / 100;
+  const fallbackTotal = total || subtotal + DELIVERY_PRICE_PENCE / 100;
 
   const payload = useMemo(
     () => ({
@@ -70,6 +73,34 @@ export function CheckoutPage() {
       setSubmitting(false);
     }
   }
+
+  useEffect(() => {
+    if (!items.length) {
+      setQuote(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    apiRequest("/api/checkout/quote", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
+      .then((data) => {
+        if (!cancelled) {
+          setQuote(data);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setQuote(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [items, payload]);
 
   return (
     <div className="min-h-screen bg-[#F7F2EB] pt-20">
@@ -170,17 +201,27 @@ export function CheckoutPage() {
               <div className="mt-8 border-t border-[#5B534A] pt-6">
                 <div className="flex items-center justify-between text-[#DCCDBA]">
                   <span>Subtotal</span>
-                  <span className="text-[#F7F2EB]">{money(subtotal)}</span>
+                  <span className="text-[#F7F2EB]">
+                    {money(quote?.subtotal ?? subtotal)}
+                  </span>
                 </div>
+                {(quote?.discount || 0) > 0 ? (
+                  <div className="mt-3 flex items-center justify-between text-[#DCCDBA]">
+                    <span>
+                      Discount{quote?.discountCode ? ` (${quote.discountCode})` : ""}
+                    </span>
+                    <span className="text-[#F7F2EB]">-{money(quote.discount)}</span>
+                  </div>
+                ) : null}
                 <div className="mt-3 flex items-center justify-between text-[#DCCDBA]">
                   <span>Next-day delivery</span>
                   <span className="text-[#F7F2EB]">
-                    {money(delivery || DELIVERY_PRICE_PENCE / 100)}
+                    {money(quote?.delivery ?? fallbackDelivery)}
                   </span>
                 </div>
                 <div className="mt-4 flex items-center justify-between text-xl text-[#F7F2EB]">
                   <span>Total</span>
-                  <span>{money(total || subtotal + DELIVERY_PRICE_PENCE / 100)}</span>
+                  <span>{money(quote?.total ?? fallbackTotal)}</span>
                 </div>
               </div>
 
