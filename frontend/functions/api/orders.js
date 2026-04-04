@@ -5,6 +5,7 @@ import {
   getCustomerDetails,
   incrementDiscountUsage,
 } from "../_lib/orderDraft";
+import { sendOrderEmails } from "../_lib/email";
 
 export async function onRequestPost(context) {
   const body = await readJson(context.request);
@@ -19,6 +20,15 @@ export async function onRequestPost(context) {
 
   const { orderId } = await createOrderRecord(context.env, draft);
   await incrementDiscountUsage(context.env, draft.discount);
+  const order = await context.env.DB.prepare("SELECT * FROM orders WHERE id = ?")
+    .bind(orderId)
+    .first();
+  const itemsResult = await context.env.DB.prepare(
+    "SELECT * FROM order_items WHERE order_id = ? ORDER BY id ASC"
+  )
+    .bind(orderId)
+    .all();
+  await sendOrderEmails(context.env, order, itemsResult.results || []);
 
   return json(
     {

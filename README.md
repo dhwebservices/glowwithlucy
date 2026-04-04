@@ -39,6 +39,11 @@ This project now includes:
 4. Add staff secrets:
    - `STAFF_EMAIL`
    - `STAFF_PASSWORD`
+5. Add email and payment secrets:
+   - `STRIPE_SECRET_KEY`
+   - `RESEND_API_KEY`
+   - `RESEND_FROM_EMAIL`
+   - `ORDER_NOTIFICATION_EMAIL` (optional, defaults to `lucyd789@sky.com`)
 
 ### Example D1 commands
 
@@ -57,9 +62,15 @@ npx wrangler d1 execute glow-with-lucy --file=schema.sql
 - Staff secrets:
   - `STAFF_EMAIL`
   - `STAFF_PASSWORD`
+- Payment and email secrets:
+  - `STRIPE_SECRET_KEY`
+  - `RESEND_API_KEY`
+  - `RESEND_FROM_EMAIL`
+  - `ORDER_NOTIFICATION_EMAIL`
 
 ## Notes
 
 - Orders currently enter the system as `pending` payment and `new` status.
+- Paid orders can send admin and customer emails through Resend when configured.
 - Lucy can update products, manage discount codes, and change order statuses from the staff dashboard.
 - If you want online card payments next, the safest follow-up is integrating Stripe Checkout while keeping the custom admin and order logic in this repo.

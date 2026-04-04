@@ -1,6 +1,7 @@
 import { badRequest, json, notAllowed } from "../../_lib/http";
 import { incrementDiscountUsage } from "../../_lib/orderDraft";
 import { stripeRequest } from "../../_lib/stripe";
+import { sendOrderEmails } from "../../_lib/email";
 
 function joinAddress(address) {
   if (!address) return "";
@@ -80,6 +81,15 @@ export async function onRequestGet(context) {
   const order = await context.env.DB.prepare("SELECT * FROM orders WHERE id = ?")
     .bind(orderId)
     .first();
+  const items = await context.env.DB.prepare(
+    "SELECT * FROM order_items WHERE order_id = ? ORDER BY id ASC"
+  )
+    .bind(orderId)
+    .all();
+
+  if (existing.payment_status !== "paid") {
+    await sendOrderEmails(context.env, order, items.results || []);
+  }
 
   return json({
     order: {
